@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="style.css" rel="stylesheet">
+    <script>
+        var ch1, ch2, operat;
+        var resultClicked = false, operationClicked = false, numberClicked = false, check = false;
+        var numClickIt = 0, conut = 0;
+
+        function numClick(num) {
+            if (resultClicked) {
+                document.getElementById('ch1').value = '';
+                resultClicked = false;
+                ch1 = 0;
+            }
+            if (operationClicked) {
+                document.getElementById('ch1').value ='' ;
+                operationClicked = false;
+            }
+            if (numberClicked) {
+                conut++;
+            }
+            if (conut == 0 || check) {
+                document.getElementById('ch1').value = num;
+                check = false;
+            } else {
+                document.getElementById('ch1').value += num;
+            }
+            resultClicked = false;
+            numberClicked = true;
+
+        }
+
+
+        function operationClick(operation) {
+            if (numberClicked) {
+                numClickIt++;
+                numberClicked = false;
+            }
+            if (numClickIt > 1) {
+                doOperation();
+            }
+            ch1 = +document.getElementById('ch1').value;
+            operat = operation;
+             document.getElementById('ch1').value +=operat;
+            // if ("+-*/".indexOf(operat) > -1) {
+            //     if (operat !== PrevSign(document.getElementById('ch1').value) &&
+            //         document.getElementById('ch1').value !== "") {
+            //         document.getElementById('ch1').value =
+            //             document.getElementById('ch1').value.slice(0,-1);
+            //         document.getElementById('ch1').value += operat;
+            //     }
+            // }
+            resultClicked = false;
+            operationClicked = true;
+
+        }
+
+        // function PrevSign(str) {
+        //     return str.match(/[\+]|[\*]|[\-]|[\/]/);
+        // }
+
+        function result() {
+            if (!resultClicked) {
+                ch2 = +document.getElementById('ch1').value;
+            }
+            resultClicked = true;
+            doOperation();
+            numClickIt = 0;
+        }
+
+        function doOperation() {
+            if (!resultClicked) {
+                ch2 = +document.getElementById('ch1').value;
+            }
+            switch (operat) {
+                case '+': {
+                    document.getElementById('ch1').value = +ch2 + +ch1;
+                    ch1 = +document.getElementById('ch1').value;
+                }
+            }
+            switch (operat) {
+                case '-': {
+                    document.getElementById('ch1').value = +ch1 - +ch2;
+                    ch1 = +document.getElementById('ch1').value;
+                }
+            }
+            switch (operat) {
+                case '/': {
+                    if (ch2 === 0) {
+                        document.getElementById('ch1').value = 'Деление на 0';
+                        return;
+                    }
+                    document.getElementById('ch1').value = +ch1 / +ch2;
+                    ch1 = +document.getElementById('ch1').value;
+                }
+            }
+            switch (operat) {
+                case '*': {
+                    document.getElementById('ch1').value = +ch2 * +ch1;
+                    ch1 = +document.getElementById('ch1').value;
+                }
+            }
+        }
+
+        function clearResult() {
+            ch1 = 0;
+            document.getElementById('ch1').value = ch1;
+            operat = null;
+            check = true;
+        }
+
+        function convert10() {
+            ch1 = +document.getElementById('ch1').value;
+            document.getElementById('ch1').value = parseInt(ch1, 2);
+            err(document.getElementById('ch1').value = parseInt(ch1, 2));
+
+        }
+
+        function convert8() {
+            ch1 = +document.getElementById('ch1').value;
+            document.getElementById('ch1').value = ch1.toString(8);
+            err(document.getElementById('ch1').value = ch1.toString(8));
+        }
+
+        function absolute() {
+            ch1 = +document.getElementById('ch1').value;
+            document.getElementById('ch1').value = Math.abs(ch1);
+            err(document.getElementById('ch1').value = Math.abs(ch1));
+        }
+
+        function cos() {
+            const val = Math.PI / 180;
+            ch1 = +document.getElementById('ch1').value;
+            document.getElementById('ch1').value = Math.cos(ch1 * val);
+        }
+
+        function ln() {
+            ch1 = document.getElementById('ch1').value;
+            document.getElementById('ch1').value = Math.log10(ch1);
+            err(document.getElementById('ch1').value = Math.log10(ch1))};
+
+        function err(number) {
+          if (isNaN(number)) {
+                 document.getElementById('ch1').value = 'Error'}
+        }
+
+        function pointt() {
+            document.getElementById('ch1').value += '.';
+        }
+
+    </script>
+</head>
+<body>
+<h3>Calculator</h3>
+<div id="aa">
+    <input type="text" id="ch1" disabled value="0">
+    <br>
+    <div class="operationsUpBlock">
+        <input type="button" class="btn1" id="pls" value="+" onclick="operationClick('+')">
+        <input type="button" class="btn1" id="mns" value="-" onclick="operationClick('-')">
+        <input type="button" class="btn1" id="mult" value="*" onclick="operationClick('*')">
+        <input type="button" class="btn1" id="del" value="/" onclick="operationClick('/')">
+        <input type="button" class="btn1" id="modl" value="ABS" onclick="absolute()">
+        <input type="button" class="btn1" id="C" value="C" onclick="clearResult()">
+    </div>
+    <input type="button" class="btn1" id="seven" value="7" onclick="numClick(7)">
+    <input type="button" class="btn1" id="eight" value="8" onclick="numClick(8)">
+    <input type="button" class="btn1" id="nine" value="9" onclick="numClick(9)">
+    <input type="button" class="btn1" id="lnn" value="log" onclick="ln()">
+    <input type="button" class="btn1" id="convert10" value="10->8" onclick="convert8()">
+    <br>
+    <input type="button" class="btn1" id="four" value="4" onclick="numClick(4)">
+    <input type="button" class="btn1" id="five" value="5" onclick="numClick(5)">
+    <input type="button" class="btn1" id="six" value="6" onclick="numClick(6)">
+    <input type="button" class="btn1" id="cos" value="cos" onclick="cos()">
+    <input type="button" class="btn1" id="convert2" value="2->10" onclick="convert10()">
+    <br>
+    <div class="ttt">
+        <input type="button" class="btn1" id="one" value="1" onclick="numClick(1)">
+        <input type="button" class="btn1" id="two" value="2" onclick="numClick(2)">
+        <input type="button" class="btn1" id="three" value="3" onclick="numClick(3)">
+        <input type="button" class="btn1" id="zero" value="0" onclick="numClick(0)">
+        <input type="button" class="btn1" id="pointt" value="." onclick="pointt()">
+        <input type="button" class="btn1" id="equal" value="=" onclick="result()">
+    </div>
+</div>
+</body>
+</html>
